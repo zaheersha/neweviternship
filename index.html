@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Eviternship | Python Internship – Session Recordings</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b3e;
+  --orange:#f26419;
+  --orange-light:#ff8c42;
+  --white:#ffffff;
+  --off-white:#f7f6f2;
+  --muted:#8c8c8c;
+  --card-bg:#ffffff;
+  --border:#e5e3dc;
+  --soon-bg:#f0efe9;
+  --text:#1a1a1a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--text);min-height:100vh;}
+
+/* GATE */
+#gate{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--navy);padding:1.5rem;position:relative;overflow:hidden;}
+#gate::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;border:100px solid rgba(242,100,25,0.06);top:-180px;right:-180px;pointer-events:none;}
+#gate::after{content:'';position:absolute;width:350px;height:350px;border-radius:50%;border:70px solid rgba(242,100,25,0.08);bottom:-80px;left:-80px;pointer-events:none;}
+.gate-inner{position:relative;z-index:1;text-align:center;max-width:440px;width:100%;}
+.logo-img{height:44px;width:auto;display:block;margin:0 auto 2rem;object-fit:contain;}
+.logo-img-dark{filter:brightness(0) invert(1);}
+.gate-heading{font-family:'Syne',sans-serif;font-size:clamp(1.5rem,5vw,1.85rem);font-weight:700;color:var(--white);line-height:1.25;margin-bottom:0.65rem;}
+.gate-heading span{color:var(--orange);}
+.gate-sub{font-size:0.9rem;color:rgba(255,255,255,0.5);margin-bottom:2rem;line-height:1.6;}
+.gate-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:1.75rem;}
+.gate-label{font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:0.6rem;display:block;text-align:left;}
+.gate-input-wrap{position:relative;}
+#code-input{width:100%;padding:0.9rem 3rem 0.9rem 1.1rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;color:var(--white);letter-spacing:3px;text-transform:uppercase;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
+#code-input::placeholder{letter-spacing:1px;text-transform:none;color:rgba(255,255,255,0.25);font-weight:300;}
+#code-input:focus{border-color:var(--orange);}
+.toggle-vis{position:absolute;right:0.9rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.4);font-size:1.1rem;}
+#gate-error{font-size:0.8rem;color:#ff6b6b;margin-top:0.5rem;min-height:1.1rem;text-align:left;}
+#gate-btn{margin-top:1rem;width:100%;padding:0.9rem;background:var(--orange);border:none;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--white);cursor:pointer;-webkit-appearance:none;}
+
+/* PORTAL */
+#portal{display:none;}
+header{background:var(--navy);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.06);}
+.h-logo-img{height:30px;width:auto;object-fit:contain;filter:brightness(0) invert(1);display:block;}
+.h-right{display:flex;align-items:center;gap:0.6rem;}
+.h-badge{background:rgba(242,100,25,0.15);border:1px solid rgba(242,100,25,0.3);color:var(--orange);font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;padding:0.28rem 0.65rem;border-radius:999px;white-space:nowrap;}
+.back-btn{background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-size:0.75rem;padding:0.28rem 0.7rem;border-radius:999px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+
+/* HERO */
+.hero{background:var(--navy);padding:3rem 1.25rem 4rem;text-align:center;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:50px;background:var(--off-white);clip-path:ellipse(55% 100% at 50% 100%);}
+.hero-eyebrow{display:inline-block;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:0.85rem;}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(1.75rem,5vw,3rem);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:0.65rem;}
+.hero-title span{color:var(--orange);}
+.hero-desc{font-size:0.95rem;color:rgba(255,255,255,0.55);max-width:500px;margin:0 auto 1.75rem;line-height:1.7;}
+.hero-pills{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;}
+.pill{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);padding:0.35rem 0.9rem;border-radius:999px;font-size:0.78rem;}
+.pill strong{color:var(--orange);font-weight:600;}
+
+/* MAIN */
+main{max-width:1100px;margin:0 auto;padding:2.5rem 1rem 4rem;}
+.section-label{font-size:0.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:0.35rem;font-weight:600;}
+.section-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem;}
+.section-sub{font-size:0.88rem;color:var(--muted);margin-bottom:2rem;line-height:1.6;}
+
+/* VIDEO GRID */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem;margin-bottom:3.5rem;}
+.vcard{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.vcard-header{background:var(--navy);padding:1rem 1.1rem;display:flex;align-items:center;gap:0.65rem;}
+.day-badge{background:var(--orange);color:#fff;font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;padding:0.25rem 0.6rem;border-radius:999px;white-space:nowrap;flex-shrink:0;}
+.vcard-title{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:600;color:#fff;line-height:1.3;}
+.vcard-body{padding:0.9rem 1.1rem 1.1rem;}
+.vcard-desc{font-size:0.82rem;color:var(--muted);line-height:1.5;margin-bottom:0.85rem;}
+.watch-btn{display:inline-flex;align-items:center;gap:0.4rem;background:var(--orange);color:#fff;font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;padding:0.55rem 1.1rem;border-radius:999px;border:none;cursor:pointer;text-decoration:none;}
+.open-link-btn{display:inline-flex;align-items:center;gap:0.4rem;background:none;color:var(--navy);font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:600;padding:0.45rem 0;border:none;cursor:pointer;text-decoration:underline;margin-left:0.75rem;}
+
+/* VIDEO MODAL */
+#modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:1rem;}
+#modal-overlay.open{display:flex;}
+.modal-box{background:#000;border-radius:16px;overflow:hidden;width:100%;max-width:900px;position:relative;}
+.modal-top{background:var(--navy);padding:0.75rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;}
+.modal-title-wrap .m-day{font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--orange);}
+.modal-title-wrap .m-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;}
+.modal-close{background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:1.1rem;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.video-container{position:relative;width:100%;padding-top:56.25%;background:#000;}
+.video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.modal-notice{background:var(--navy);padding:0.6rem 1rem;text-align:center;font-size:0.78rem;color:rgba(255,255,255,0.5);}
+.modal-notice a{color:var(--orange);font-weight:600;}
+
+/* COMING SOON */
+.soon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.85rem;}
+.soon-card{background:var(--soon-bg);border:1px dashed var(--border);border-radius:14px;padding:1rem;display:flex;flex-direction:column;align-items:flex-start;gap:0.4rem;}
+.soon-day{font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.soon-badge{display:inline-flex;align-items:center;gap:0.3rem;background:#fff;border:1px solid var(--border);font-size:0.7rem;color:var(--muted);padding:0.22rem 0.6rem;border-radius:999px;}
+
+/* FOOTER */
+footer{background:var(--navy);padding:1.5rem;text-align:center;font-size:0.78rem;color:rgba(255,255,255,0.3);}
+
+@media(max-width:500px){
+  .video-grid{grid-template-columns:1fr;}
+  .soon-grid{grid-template-columns:1fr 1fr;}
+  .h-badge{display:none;}
+  main{padding:2rem 0.85rem 3rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-inner">
+    <img class="logo-img logo-img-dark" src="https://eviternship.vercel.app/assets/logo_-_Eviternship_1772863765020-D5c2Hwo5.png"/>
+    <h1 class="gate-heading">Python Internship<br><span>Session Recordings</span></h1>
+    <p class="gate-sub">Exclusive recordings for enrolled students. Enter your access code to unlock the content library.</p>
+    <div class="gate-card">
+      <label class="gate-label" for="code-input">Access Code</label>
+      <div class="gate-input-wrap">
+        <input type="password" id="code-input" placeholder="Enter your access code" autocomplete="off" spellcheck="false"/>
+        <button class="toggle-vis" id="toggle-btn" aria-label="Toggle visibility">👁</button>
+      </div>
+      <div id="gate-error"></div>
+      <button id="gate-btn">Unlock Recordings →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal">
+  <header>
+    <img class="h-logo-img" src="https://eviternship.vercel.app/assets/logo_-_Eviternship_1772863765020-D5c2Hwo5.png"/>
+    <div class="h-right">
+      <span class="h-badge">Python Batch 2026</span>
+      <button class="back-btn" id="back-btn">← Back</button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <span class="hero-eyebrow">🎓 Programming with Python</span>
+    <h2 class="hero-title">Your <span>Python Journey</span><br>Starts Here</h2>
+    <p class="hero-desc">Access all recorded sessions — watch at your own pace, revisit concepts, and build real-world skills.</p>
+    <div class="hero-pills">
+      <div class="pill"><strong>10</strong> Sessions Available</div>
+      <div class="pill"><strong>8</strong> Upcoming</div>
+      <div class="pill"><strong>Live Projects</strong> Included</div>
+      <div class="pill"><strong>Certificate</strong> on Completion</div>
+    </div>
+  </div>
+
+  <main>
+    <div class="section-label">Available Now</div>
+    <h2 class="section-title">Session Recordings</h2>
+    <p class="section-sub">Tap Watch to open the video — if it doesn't load, use "Open in Drive" to watch directly.</p>
+    <div class="video-grid" id="video-grid"></div>
+
+    <div class="section-label" style="margin-top:0.5rem;">Upcoming</div>
+    <h2 class="section-title">Coming Soon</h2>
+    <p class="section-sub">More sessions are on the way. Stay tuned!</p>
+    <div class="soon-grid" id="soon-grid"></div>
+  </main>
+
+  <footer>© 2026 Eviternship &nbsp;·&nbsp; teameviternship@gmail.com &nbsp;·&nbsp; 9494333702</footer>
+</div>
+
+<!-- VIDEO MODAL -->
+<div id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div class="modal-title-wrap">
+        <div class="m-day" id="m-day"></div>
+        <div class="m-name" id="m-name"></div>
+      </div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="video-container">
+      <iframe id="modal-frame" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+    <div class="modal-notice">
+      Video not loading? <a id="drive-link" href="#" target="_blank">Open in Google Drive ↗</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const ACCESS_CODE = 'EVITPYTHON2026';
+
+const sessions = [
+  {day:1,title:'Introduction to Python',desc:'Get started with Python — understand what it is, why it matters, and set up your environment.',driveId:'1dVhB1A3AdSpB-ZQ9yosgDqZTO9fYJERP'},
+  {day:2,title:'Fundamentals & Variable Declarations',desc:'Explore Python fundamentals and learn how to declare and use variables effectively.',driveId:'127Hi3jxIsILLasTH9ApEhuqO6YSKv1Ra'},
+  {day:3,title:'Lists',desc:'Dive into Python lists — creation, indexing, slicing, and ordered collections of data.',driveId:'18hdye60zzGHSu9nxSInb0eEfjYSRIWgh'},
+  {day:4,title:'Lists Programs Practice',desc:'Hands-on practice solving real problems using Python lists with guided exercises.',driveId:'18hdye60zzGHSu9nxSInb0eEfjYSRIWgh'},
+  {day:5,title:'String & List Manipulation',desc:'Master string and list manipulation — slicing, joining, replacing, and more.',driveId:'1JRiCB3UfIOh9teP5MS_-Ip8IC73o8rjF'},
+  {day:6,title:'List Built-in Methods',desc:'Explore all the powerful built-in list manipulation methods available in Python.',driveId:'1-n-dNi0s07NOGK7VxBzb3_d-s6pzW4EY'},
+  {day:7,title:'Tuple Functionality',desc:'Understand tuples — immutability, packing, unpacking, and when to use them.',driveId:'1vZqW7S41eiKond6uhFqn7PkOiFVgEO68'},
+  {day:8,title:'Sets & Dictionaries',desc:'Learn sets for unique collections and dictionaries for key-value storage.',driveId:'1Hn4auE5Lk2rmqsYB6oEebcWGg-w6EmLl'},
+  {day:9,title:'Python Operators',desc:'A complete walkthrough of arithmetic, comparison, logical, and bitwise operators.',driveId:'1J7dEJORs1Irle3FckMDWHZkyaiF5q214'},
+  {day:10,title:'Python Control Flow Statements',desc:'Master if-else, for loops, while loops, break, continue, and pass.',driveId:'156a-31mCQVkPPhXsRdI-GLYi_1THUsBF'},
+];
+
+const comingSoon = [
+  {day:11},{day:12},{day:13},{day:14},{day:15},{day:16},{day:17},{day:18},
+];
+
+// Gate
+const codeInput = document.getElementById('code-input');
+const gateError = document.getElementById('gate-error');
+let hidden = true;
+
+document.getElementById('toggle-btn').addEventListener('click', () => {
+  hidden = !hidden;
+  codeInput.type = hidden ? 'password' : 'text';
+  document.getElementById('toggle-btn').textContent = hidden ? '👁' : '🙈';
+});
+codeInput.addEventListener('keydown', e => { if(e.key==='Enter') attempt(); });
+document.getElementById('gate-btn').addEventListener('click', attempt);
+
+function attempt(){
+  const val = codeInput.value.trim().toUpperCase();
+  if(val === ACCESS_CODE){
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('portal').style.display = 'block';
+    buildGrid();
+    buildSoon();
+    window.scrollTo(0,0);
+  } else {
+    gateError.textContent = val ? '✕ Incorrect code. Please try again.' : '✕ Please enter your access code.';
+    codeInput.style.borderColor = '#ff6b6b';
+    setTimeout(() => { codeInput.style.borderColor=''; gateError.textContent=''; }, 2500);
+  }
+}
+
+document.getElementById('back-btn').addEventListener('click', () => {
+  closeModal();
+  document.getElementById('portal').style.display = 'none';
+  document.getElementById('gate').style.display = 'flex';
+  document.getElementById('video-grid').innerHTML = '';
+  document.getElementById('soon-grid').innerHTML = '';
+  codeInput.value = '';
+  window.scrollTo(0,0);
+});
+
+function buildGrid(){
+  const grid = document.getElementById('video-grid');
+  sessions.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'vcard';
+    card.innerHTML = `
+      <div class="vcard-header">
+        <span class="day-badge">Day ${s.day}</span>
+        <div class="vcard-title">${s.title}</div>
+      </div>
+      <div class="vcard-body">
+        <p class="vcard-desc">${s.desc}</p>
+        <button class="watch-btn" data-id="${s.driveId}" data-day="${s.day}" data-title="${s.title}">
+          ▶ Watch Session
+        </button>
+        <a class="open-link-btn" href="https://drive.google.com/file/d/${s.driveId}/view" target="_blank">Open in Drive ↗</a>
+      </div>`;
+    grid.appendChild(card);
+  });
+  grid.addEventListener('click', e => {
+    const btn = e.target.closest('.watch-btn');
+    if(!btn) return;
+    openModal(btn.dataset.id, btn.dataset.day, btn.dataset.title);
+  });
+}
+
+function buildSoon(){
+  const sg = document.getElementById('soon-grid');
+  comingSoon.forEach(s => {
+    const c = document.createElement('div');
+    c.className = 'soon-card';
+    c.innerHTML = `<div class="soon-day">Day ${s.day}</div><div class="soon-badge">🔒 Coming Soon</div>`;
+    sg.appendChild(c);
+  });
+}
+
+function openModal(driveId, day, title){
+  document.getElementById('m-day').textContent = 'Day ' + day;
+  document.getElementById('m-name').textContent = title;
+  document.getElementById('modal-frame').src = 'https://drive.google.com/file/d/' + driveId + '/preview';
+  document.getElementById('drive-link').href = 'https://drive.google.com/file/d/' + driveId + '/view';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.getElementById('modal-frame').src = '';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if(e.target === document.getElementById('modal-overlay')) closeModal();
+});
+</script>
+</body>
+</html>
